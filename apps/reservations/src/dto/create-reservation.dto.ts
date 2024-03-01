@@ -3,11 +3,11 @@ import { IsDate, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateReservationDto {
   @IsDate()
-  @Type(()=> Date)
+  @Type(() => Date)
   startDate: Date;
 
   @IsDate()
-  @Type(()=> Date)
+  @Type(() => Date)
   endDate: Date;
 
   @IsString()
