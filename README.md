@@ -59,10 +59,11 @@ nest generate library name
 
 nest generate module name -p common
 
- nest g app reservations
+nest g app reservations
 
-  nest g resource reservations
+nest g resource reservations
 
+docker build ../../ -f Dockerfile -t sleepr_reservations
 
 ## Support
 
