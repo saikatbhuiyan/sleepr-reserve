@@ -22,7 +22,6 @@ import {
       validationSchema: Joi.object({
         MONGODB_URI: Joi.string().required(),
         HTTP_PORT: Joi.string().required(),
-
       }),
     }),
   ],
