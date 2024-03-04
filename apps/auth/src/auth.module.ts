@@ -6,6 +6,8 @@ import { LoggerModule } from 'nestjs-pino';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import Joi from 'joi';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalStategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
@@ -31,6 +33,6 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, LocalStategy, JwtStrategy],
 })
 export class AuthModule {}
