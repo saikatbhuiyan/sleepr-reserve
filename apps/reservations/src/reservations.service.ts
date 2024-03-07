@@ -8,7 +8,7 @@ import { UserDto } from '@app/common';
 export class ReservationsService {
   constructor(
     private readonly reservationsRepository: ReservationsRepository,
-  ) { }
+  ) {}
 
   create(createReservationDto: CreateReservationDto, user: UserDto) {
     return this.reservationsRepository.create({
