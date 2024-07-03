@@ -2,9 +2,7 @@ import { Type } from 'class-transformer';
 import {
   IsDate,
   IsDefined,
-  IsNotEmpty,
   IsNotEmptyObject,
-  IsString,
   ValidateNested,
 } from 'class-validator';
 import { CreateChargeDto } from '@app/common';
