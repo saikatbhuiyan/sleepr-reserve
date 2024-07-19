@@ -4,12 +4,13 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 COPY package-lock.json ./
+COPY tsconfig.json tsconfig.json
 
 RUN npm install
 
-COPY . .
+COPY apps/reservations apps/reservations
+COPY libs libs
 
-RUN npm run build
 
 FROM node:alpine as production
 
