@@ -8,18 +8,40 @@ import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule);
+
   const configService = app.get(ConfigService);
+  const httpPort = configService.get<number>('HTTP_PORT');
+  const tcpPort = configService.get<number>('TCP_PORT');
+
   app.connectMicroservice({
     transport: Transport.TCP,
     options: {
       host: '0.0.0.0',
-      port: configService.get('TCP_PORT'),
+      port: tcpPort,
     },
   });
+
   app.use(cookieParser());
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
   app.useLogger(app.get(Logger));
+
   await app.startAllMicroservices();
-  await app.listen(configService.get('HTTP_PORT', 3001));
+
+  const logger = app.get(Logger);
+
+  try {
+    await app.listen(httpPort);
+    logger.log(`🚀 Auth HTTP service running on port ${httpPort}`);
+  } catch (error) {
+    logger.error('Error starting the application', error);
+  }
 }
 bootstrap();

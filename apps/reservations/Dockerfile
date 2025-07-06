@@ -3,10 +3,9 @@ FROM node:alpine AS development
 WORKDIR /usr/src/app
 
 COPY package.json ./
-COPY package-lock.json ./
 COPY tsconfig.json tsconfig.json
 
-RUN npm install
+RUN npm install 
 
 COPY apps/reservations apps/reservations
 COPY libs libs
@@ -22,7 +21,7 @@ WORKDIR /usr/src/app
 COPY package.json ./
 COPY package-lock.json ./
 
-RUN npm install --prod
+RUN npm install --prod 
 
 COPY --from=development /usr/src/app/dist ./dist
 

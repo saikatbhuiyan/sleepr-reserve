@@ -7,6 +7,12 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
 
   constructor(protected readonly model: Model<TDocument>) {}
 
+  protected excludeDeleted(
+    query: FilterQuery<TDocument>,
+  ): FilterQuery<TDocument> {
+    return { ...query, deletedAt: null };
+  }
+
   async create(document: Omit<TDocument, '_id'>): Promise<TDocument> {
     const createDocument = new this.model({
       ...document,
@@ -34,7 +40,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     update: UpdateQuery<TDocument>,
   ): Promise<TDocument> {
     const document = await this.model
-      .findByIdAndUpdate(filterQuery, update, { new: true })
+      .findOneAndUpdate(filterQuery, update, { new: true })
       .lean<TDocument>(true);
 
     if (!document) {
@@ -52,6 +58,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   async findOneAndDelete(
     filterQuery: FilterQuery<TDocument>,
   ): Promise<TDocument> {
-    return await this.model.findOneAndDelete(filterQuery).lean(true);
+    return (await this.model
+      .findOneAndDelete(filterQuery)
+      .lean(true)) as TDocument;
   }
 }
